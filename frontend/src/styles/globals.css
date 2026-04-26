@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #f7efdc;
+  background: radial-gradient(circle at top, rgba(228,196,118,.12), transparent 20%), linear-gradient(180deg, #12261a 0%, #07110d 100%);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+body { margin: 0; min-height: 100vh; background: transparent; }
+* { box-sizing: border-box; }
+a { color: inherit; text-decoration: none; }
+.shell { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.card { background: rgba(18,38,26,.86); border: 1px solid rgba(228,196,118,.16); box-shadow: 0 24px 80px rgba(0,0,0,.35); border-radius: 24px; }
+.btn-primary { background: #e4c476; color: #0f1d14; border-radius: 9999px; padding: 12px 20px; font-weight: 700; border: 0; cursor: pointer; }
+.btn-secondary { background: transparent; color: #f7efdc; border-radius: 9999px; padding: 12px 20px; font-weight: 600; border: 1px solid rgba(228,196,118,.25); cursor: pointer; }
+.input { width: 100%; background: rgba(255,255,255,.04); border: 1px solid rgba(228,196,118,.15); color: #f7efdc; border-radius: 16px; padding: 12px 14px; }
+.label { display: block; margin-bottom: 8px; color: #bfb49a; font-size: 14px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 24px; }
+@media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } .shell { padding: 16px; } }

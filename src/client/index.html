@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/index.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <meta property="og:image" content="./img/pokerBanner.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="msapplication-TileColor" content="#102117" />
+  <meta name="theme-color" content="#102117" />
+  <title>River Club | 多人德州扑克</title>
+</head>
+<body>
+  <div class="page-backdrop"></div>
+  <div class="page-grain"></div>
+
+  <header id="siteHeader" class="site-header">
+    <nav role="navigation" id="navbar" class="nav-shell">
+      <div class="nav-wrapper container nav-inner">
+        <div class="brand-stack">
+          <span class="brand-logo left holdem-brand">River Club</span>
+        </div>
+        <span class="right nav-tagline">房码组局 · 浏览器即开局</span>
+      </div>
+    </nav>
+  </header>
+
+  <div id="gameDiv" class="game-shell">
+    <section class="game-overview">
+      <div class="game-heading">
+        <p class="eyebrow">实时牌桌</p>
+        <h4>River Club 牌桌</h4>
+        <p class="game-subtitle">一张牌桌、一个房码、所有玩家实时同步。</p>
+      </div>
+      <aside class="table-meta-card table-room-card">
+        <span class="table-meta-label">牌桌气氛</span>
+        <strong class="table-meta-value">高筹码 · 慢节奏 · 房码组局</strong>
+        <p class="table-room-note">你的手牌、底池和对手状态都集中摆在正中，尽量像真桌看局，而不是在一堆组件里找信息。</p>
+      </aside>
+    </section>
+
+    <div class="row table-grid table-grid-self">
+      <div class="col s12">
+        <div id="playerInformationCard" class="card game-card player-focus-card green darken-2">
+          <div class="card-content white-text self-stage">
+            <div class="self-stage-head">
+              <div class="self-stage-copy-wrap">
+                <span class="card-title" id="usernamesCards"></span>
+                <p class="self-stage-copy">你的底牌和公共牌都放在上面，先看手牌，再看局势。</p>
+              </div>
+              <div class="self-stage-meta">
+                <span class="self-stage-badge" id="blindStatus"></span>
+                <span class="self-stage-badge subtle" id="usernamesMoney"></span>
+              </div>
+            </div>
+            <div id="mycards"></div>
+            <div class="self-stage-board">
+              <div class="board-header">
+                <div class="board-heading">
+                  <span id="table-title" class="card-title"></span>
+                  <span id="tableSubtitle" class="board-subtitle"></span>
+                </div>
+                <span class="board-chip">公共牌面</span>
+              </div>
+              <div id="communityCards"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row table-grid table-grid-top">
+      <div class="col s12">
+        <div id="commandCard" class="card game-card command-card green darken-2">
+          <div class="card-content white-text center-align">
+            <div class="status-stack">
+              <div id="status"></div>
+              <div id="turnHint" class="turn-hint"></div>
+              <div class="table-metrics" id="tableMetrics">
+                <div class="metric-chip">
+                  <span class="metric-label">阶段</span>
+                  <strong class="metric-value" id="stageStatus">—</strong>
+                </div>
+                <div class="metric-chip">
+                  <span class="metric-label">底池</span>
+                  <strong class="metric-value" id="potStatus">$0</strong>
+                </div>
+                <div class="metric-chip">
+                  <span class="metric-label">顶注</span>
+                  <strong class="metric-value" id="topBetStatus">$0</strong>
+                </div>
+              </div>
+              <div id="moveSummary" class="move-summary"></div>
+            </div>
+            <div id="playNext"></div>
+            <div class="action-stack">
+              <button onClick="fold()" id="usernameFold" class="btn white black-text menuButtons">弃牌</button>
+              <button onClick="check()" id="usernameCheck" class="btn white black-text menuButtons">过牌</button>
+              <button href="#betModal" onClick="updateBetModal()" id="usernameBet" class="btn white black-text modal-trigger menuButtons">下注</button>
+              <button onClick="call()" id="usernameCall" class="btn white black-text menuButtons">跟注</button>
+              <button href="#raiseModal" onClick="updateRaiseModal()" id="usernameRaise" class="btn white black-text modal-trigger menuButtons">加注</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row table-grid table-grid-opponents">
+      <div id="opponentCards"></div>
+    </div>
+  </div>
+
+  <main id="mainContent" class="lobby-shell lobby-shell-refined">
+    <section class="hero-panel hero-panel-refined">
+      <div class="hero-copy hero-copy-refined">
+        <p class="eyebrow">Private table · browser play</p>
+        <div class="hero-copy-clubline">
+          <span class="hero-club-mark">RIVER CLUB</span>
+          <span class="hero-club-divider"></span>
+          <span class="hero-club-note">私人牌局入口</span>
+        </div>
+        <h1>多人德州，像真的在一张牌桌上。</h1>
+        <p class="hero-text hero-text-refined">
+          房主开桌，生成房码，其他玩家直接入席。信息尽量留在桌面中央，不把注意力浪费在一堆组件和说明上。
+        </p>
+        <div class="hero-actions-inline">
+          <a id="hostButton" class="btn-large waves-effect waves-light modal-trigger lobby-primary-btn" href="#hostModal">创建牌桌</a>
+          <a id="joinButton" class="btn-large waves-effect waves-light modal-trigger lobby-secondary-btn" href="#joinModal">输入房码加入</a>
+        </div>
+        <div class="hero-footnote-wrap">
+          <p class="hero-footnote">2 人起局 · 房码同步 · 浏览器直连</p>
+          <p class="hero-subfoot">不做大厅噪音，只保留开局前真正需要看到的东西。</p>
+        </div>
+      </div>
+
+      <div class="lobby-card-wrap lobby-card-wrap-refined">
+        <div class="hero-stage-card hero-stage-card-refined">
+          <div class="hero-stage-frame hero-stage-frame-refined">
+            <img src="img/poker-table-ultimate.svg" alt="深绿与暗金色调的私人德州扑克桌面主视觉" class="hero-stage-art" />
+            <div class="hero-stage-fade"></div>
+            <div class="hero-stage-focus"></div>
+          </div>
+        </div>
+
+        <div class="card lobby-card lobby-card-refined lobby-card-compact lobby-card-floating-copy">
+          <div class="card-content">
+            <span class="card-title">进房之后，这里直接看局。</span>
+            <p class="lobby-card-lead">房码、房主、玩家名单和开局状态都会集中显示，不用来回找。</p>
+            <div class="lobby-room-panel-wrap">
+              <div id="lobbyRoomPanel">
+                <div class="lobby-room-preview lobby-room-preview-refined">
+                  <p class="lobby-room-preview-copy">房主一开桌，这里就出现当前房间信息；人齐后直接开局。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="club-notes club-notes-refined club-notes-inline" aria-label="牌局体验说明">
+      <article class="note-card note-card-inline">
+        <h5>先入席，再开局。</h5>
+        <p>创建房间或输入房码，路径尽量短。</p>
+      </article>
+      <article class="note-card note-card-inline">
+        <h5>桌面信息集中。</h5>
+        <p>公共牌、底池和玩家状态尽量摆在中心区域。</p>
+      </article>
+      <article class="note-card note-card-inline">
+        <h5>动作反馈直接。</h5>
+        <p>下注、加注和状态切换优先保证清楚好读。</p>
+      </article>
+    </section>
+  </main>
+
+  <div id="hostModal" class="modal holdem-modal">
+    <div class="modal-content">
+      <h4>创建牌桌</h4>
+      <div id="hostModalContent">
+        <p>先输入你的昵称，然后把生成的房码发给其他玩家。</p>
+        <div class="input-field col s12">
+          <label for="name">昵称</label>
+          <input type="text" name="name" id="hostName-field" required />
+        </div>
+        <div class="room-settings-form">
+          <h5>房主设置</h5>
+          <div class="input-field col s6">
+            <label class="active" for="smallBlind-field">小盲</label>
+            <input type="number" min="1" step="1" id="smallBlind-field" value="1" />
+          </div>
+          <div class="input-field col s6">
+            <label class="active" for="bigBlind-field">大盲</label>
+            <input type="number" min="2" step="1" id="bigBlind-field" value="2" />
+          </div>
+          <div class="input-field col s6">
+            <label class="active" for="startingStack-field">起始筹码</label>
+            <input type="number" min="100" step="10" id="startingStack-field" value="100" />
+          </div>
+          <div class="input-field col s6">
+            <label class="active" for="autoRebuyStack-field">自动补码目标</label>
+            <input type="number" min="100" step="10" id="autoRebuyStack-field" value="100" />
+          </div>
+          <p class="room-settings-toggle">
+            <input type="checkbox" id="autoRebuy-field" checked="checked" />
+            <label for="autoRebuy-field">自动补码</label>
+          </p>
+        </div>
+        <button onclick="beginHost()" type="submit" class="waves-effect waves-light btn-flat modal-action-btn">生成房码</button>
+      </div>
+      <div id="playersNames"></div>
+      <div id="startGameArea"></div>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-close waves-effect waves-light btn-flat">关闭</a>
+    </div>
+  </div>
+
+  <div id="joinModal" class="modal holdem-modal">
+    <div class="modal-content">
+      <h4>加入牌桌</h4>
+      <div id="joinModalContent">
+        <p>输入你的昵称，以及房主给你的 4 位房码。</p>
+        <div class="input-field col s12">
+          <label for="name">昵称</label>
+          <input type="text" name="name" id="joinName-field" required="required" />
+        </div>
+        <div class="input-field col s12">
+          <label for="code">房码</label>
+          <input type="text" name="code" id="code-field" required="required" />
+        </div>
+        <button onclick="joinRoom()" type="submit" class="waves-effect waves-light btn-flat modal-action-btn">加入牌桌</button>
+      </div>
+      <div id="playersNamesJoined"></div>
+      <div id="startGameAreaDisconnectSituation"></div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat">关闭</a>
+    </div>
+  </div>
+
+  <div id="betModal" class="modal holdem-modal">
+    <div class="modal-content">
+      <h4>下注</h4>
+      <form action="#">
+        <div id="betDisplay">
+          <h4>拖动滑块或直接输入下注金额。</h4>
+        </div>
+        <div class="amount-input-row">
+          <div class="input-field amount-input-field">
+            <input
+              type="number"
+              id="betAmountInput"
+              min="0"
+              max="100"
+              step="1"
+              inputmode="numeric"
+              onchange="updateBetDisplay()"
+              oninput="updateBetDisplay()"
+            />
+            <label for="betAmountInput" class="active">直接输入下注金额</label>
+          </div>
+        </div>
+        <p class="range-field">
+          <input type="range" id="betRangeSlider" min="0" max="100" value="0" onchange="updateBetDisplay()" oninput="updateBetDisplay()" />
+        </p>
+      </form>
+      <br />
+      <button onclick="bet()" type="submit" class="modal-close waves-effect waves-light btn-flat modal-action-btn">确认下注</button>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat">关闭</a>
+    </div>
+  </div>
+
+  <div id="raiseModal" class="modal holdem-modal">
+    <div class="modal-content">
+      <h4>加注</h4>
+      <form action="#">
+        <div id="raiseDisplay">
+          <h4>拖动滑块或直接输入加注金额。</h4>
+        </div>
+        <p id="raiseHelpText" class="modal-help-text">最小加注会按桌面大盲注起跳。</p>
+        <div class="amount-input-row">
+          <div class="input-field amount-input-field">
+            <input
+              type="number"
+              id="raiseAmountInput"
+              min="0"
+              max="100"
+              step="1"
+              inputmode="numeric"
+              onchange="updateRaiseDisplay()"
+              oninput="updateRaiseDisplay()"
+            />
+            <label for="raiseAmountInput" class="active">直接输入加注金额</label>
+          </div>
+        </div>
+        <p class="range-field">
+          <input type="range" id="raiseRangeSlider" min="0" max="100" value="0" onchange="updateRaiseDisplay()" />
+        </p>
+      </form>
+      <br />
+      <button onclick="raise()" type="submit" class="modal-close waves-effect waves-light btn-flat modal-action-btn">确认加注</button>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat">关闭</a>
+    </div>
+  </div>
+
+  <div id="handResultModal" class="modal holdem-modal hand-result-modal">
+    <div class="modal-content">
+      <h4>本手结果</h4>
+      <div id="handResultModalContent"></div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat modal-action-btn">先看看</a>
+      <a href="#!" class="modal-close waves-effect waves-light btn modal-action-btn" onclick="closeHandResultAndPlayNext()">开始下一手</a>
+    </div>
+  </div>
+
+  <footer class="page-footer site-footer">
+    <div class="container footer-c footer-c-refined">
+      <div class="footer-mark">RIVER CLUB</div>
+      <div class="footer-divider"></div>
+      <p class="footer-line">房码多人德州扑克 · 私人牌局入口</p>
+      <p class="footer-caption">Create a table. Share the code. Start when everyone is seated.</p>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./lobby_ui.js"></script>
+  <script src="./amount_controls.js"></script>
+  <script src="./main.js"></script>
+  <script src="./js/materialize.min.js"></script>
+</body>
+</html>
