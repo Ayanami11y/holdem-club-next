@@ -1,0 +1,63 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="44" x2="448" y2="468" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07131F"/>
+      <stop offset="0.45" stop-color="#0F1C30"/>
+      <stop offset="1" stop-color="#090B14"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="104" y1="88" x2="404" y2="424" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7AF7FF"/>
+      <stop offset="0.35" stop-color="#7B8CFF"/>
+      <stop offset="0.7" stop-color="#B46CFF"/>
+      <stop offset="1" stop-color="#71FFD7"/>
+    </linearGradient>
+    <linearGradient id="river" x1="164" y1="126" x2="350" y2="372" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67F2FF"/>
+      <stop offset="0.52" stop-color="#5D7BFF"/>
+      <stop offset="1" stop-color="#C05DFF"/>
+    </linearGradient>
+    <radialGradient id="coreGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(256 256) rotate(90) scale(182)">
+      <stop stop-color="#72F4FF" stop-opacity="0.95"/>
+      <stop offset="0.45" stop-color="#7687FF" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#A95EFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blurGlow" x="18" y="18" width="476" height="476" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="softGlow" x="66" y="54" width="380" height="404" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="sharpGlow" x="84" y="70" width="344" height="372" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+  </defs>
+
+  <rect x="28" y="28" width="456" height="456" rx="128" fill="url(#bg)"/>
+
+  <g opacity="0.92" filter="url(#blurGlow)">
+    <circle cx="256" cy="256" r="130" fill="url(#coreGlow)"/>
+  </g>
+
+  <path d="M170 96H342C376.242 96 404 123.758 404 158V354C404 388.242 376.242 416 342 416H170C135.758 416 108 388.242 108 354V158C108 123.758 135.758 96 170 96Z" stroke="url(#frame)" stroke-width="14"/>
+
+  <g filter="url(#softGlow)" opacity="0.9">
+    <path d="M176 116H336C362.51 116 384 137.49 384 164V348C384 374.51 362.51 396 336 396H176C149.49 396 128 374.51 128 348V164C128 137.49 149.49 116 176 116Z" stroke="url(#frame)" stroke-width="5"/>
+  </g>
+
+  <path d="M201 150C245.834 150 273 170.409 273 214.5C273 258.591 244.247 276.144 212.5 288.5C188.616 297.799 178 308.932 178 327.5C178 347.897 192.942 360 218 360C244.838 360 260.322 349.306 272.5 333" stroke="url(#river)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M286 154L340 154" stroke="url(#river)" stroke-width="22" stroke-linecap="round"/>
+  <path d="M286 204L330 204" stroke="url(#river)" stroke-width="22" stroke-linecap="round"/>
+  <path d="M286 255L321 255" stroke="url(#river)" stroke-width="22" stroke-linecap="round"/>
+
+  <g filter="url(#sharpGlow)" opacity="0.88">
+    <path d="M201 150C245.834 150 273 170.409 273 214.5C273 258.591 244.247 276.144 212.5 288.5C188.616 297.799 178 308.932 178 327.5C178 347.897 192.942 360 218 360C244.838 360 260.322 349.306 272.5 333" stroke="#9DFBFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M286 154L340 154" stroke="#D2CCFF" stroke-width="4" stroke-linecap="round"/>
+    <path d="M286 204L330 204" stroke="#D2CCFF" stroke-width="4" stroke-linecap="round"/>
+    <path d="M286 255L321 255" stroke="#D2CCFF" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <circle cx="372" cy="140" r="6" fill="#7DF8FF"/>
+  <circle cx="394" cy="166" r="3.5" fill="#B56EFF"/>
+  <circle cx="118" cy="385" r="5.5" fill="#6FFFF1"/>
+</svg>

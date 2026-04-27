@@ -11,5 +11,5 @@ export const useSessionStore = create<SessionState>((set) => ({
   username: '',
   roomCode: '',
   setUsername: (username) => set({ username }),
-  setRoomCode: (roomCode) => set({ roomCode })
+  setRoomCode: (roomCode) => set({ roomCode: roomCode.toUpperCase() })
 }));
