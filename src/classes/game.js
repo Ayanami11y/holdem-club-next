@@ -792,6 +792,10 @@ const Game = function (name, host) {
     this.startNewRound();
   };
 
+  this.startNextRound = () => {
+    return this.startNewRound();
+  };
+
   this.dealCards = () => {
     this.deck.shuffle();
     for (let pn = 0; pn < this.getNumPlayers(); pn++) {
@@ -919,7 +923,7 @@ const Game = function (name, host) {
         if (player.getMoney() - topBet <= 0) {
           this.setCurrentRoundBets(
             this.getCurrentRoundBets().map((a) =>
-              a.player == player.username
+              a.player == player.getUsername()
                 ? { player: player.getUsername(), bet: player.getMoney() }
                 : a
             )
@@ -929,7 +933,7 @@ const Game = function (name, host) {
         } else {
           this.setCurrentRoundBets(
             this.getCurrentRoundBets().map((a) =>
-              a.player == player.username
+              a.player == player.getUsername()
                 ? { player: player.getUsername(), bet: topBet }
                 : a
             )
@@ -961,7 +965,7 @@ const Game = function (name, host) {
         if (player.getMoney() + currBet - topBet <= 0) {
           this.setCurrentRoundBets(
             this.getCurrentRoundBets().map((a) =>
-              a.player == player.username
+              a.player == player.getUsername()
                 ? {
                     player: player.getUsername(),
                     bet: player.getMoney() + currBet,
@@ -975,7 +979,7 @@ const Game = function (name, host) {
         } else {
           this.setCurrentRoundBets(
             this.getCurrentRoundBets().map((a) =>
-              a.player == player.username
+              a.player == player.getUsername()
                 ? { player: player.getUsername(), bet: topBet }
                 : a
             )
